@@ -27,15 +27,19 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: test
         run: npm run test
 
       - name: Archive test results
         uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ !cancelled() }}
         with:
           name: test-results
-          path: ./playwright-report
+          path: playwright-report/
+          retention-days: 1
 
   tag_release:
     needs: [linting_and_build]
