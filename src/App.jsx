@@ -5,10 +5,10 @@ import Person from './components/Person'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 
-const Persons = ({ personsToShow, setPersons, persons, showMessage}) =>  {
+const Persons = ({ personsToShow, setPersons, persons, showMessage }) => {
   const removePerson = (id, name) => {
-  const newPersons = persons.filter(person => person.id !== id)
-    if (window.confirm(`Delete ${name} ?`)){
+    const newPersons = persons.filter(person => person.id !== id)
+    if (window.confirm(`Delete ${name} ?`)) {
       personService
         .remove(id)
         .then(() => {
@@ -16,17 +16,17 @@ const Persons = ({ personsToShow, setPersons, persons, showMessage}) =>  {
           showMessage(`Deleted ${name}`)
 
         })
-      }
+    }
   }
   return (
     <div>
       {personsToShow.map(person =>
-        <Person 
-        key={person.name}
-        person={person}
-        remove={() => removePerson(person.id, person.name)}
+        <Person
+          key={person.name}
+          person={person}
+          remove={() => removePerson(person.id, person.name)}
         />
-        )}
+      )}
     </div>
   )
 }
@@ -71,8 +71,8 @@ const App = () => {
   }
 
   const personsToShow = personFilter
-  ? persons.filter(person => person.name.toLowerCase().includes(personFilter.toLowerCase()))
-  : persons
+    ? persons.filter(person => person.name.toLowerCase().includes(personFilter.toLowerCase()))
+    : persons
 
 
   const addPerson = (event) => {
@@ -83,16 +83,16 @@ const App = () => {
     }
     const personExists = persons.find(person => person.name === newName)
 
-    if (personExists){
+    if (personExists) {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
-      personService
-        .update(personExists.id, personObject).then(returnedPerson => {
-          setPersons(persons.map(person => person.id !== personExists.id ? person : returnedPerson))
-          showMessage(`The number of user '${newName}' was updated`)
-        })
-        .catch(error => {
-          showMessage(error.response.data.error, true)
-        })
+        personService
+          .update(personExists.id, personObject).then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== personExists.id ? person : returnedPerson))
+            showMessage(`The number of user '${newName}' was updated`)
+          })
+          .catch(error => {
+            showMessage(error.response.data.error, true)
+          })
     }
     else {
       personService
@@ -103,21 +103,21 @@ const App = () => {
         })
         .catch(error => {
           showMessage(error.response.data.error, true)
-          })
-      }
-      setNewName('')
-      setNewNumber('')
+        })
     }
-  
+    setNewName('')
+    setNewNumber('')
+  }
+
   const className = isError ? 'error' : 'message'
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} className={className}/>
-      <Filter personFilter={personFilter} handlePersonFilter={handlePersonFilter}/>
+      <Notification message={message} className={className} />
+      <Filter personFilter={personFilter} handlePersonFilter={handlePersonFilter} />
       <h3>Add a new</h3>
-      <PersonForm 
+      <PersonForm
         newName={newName}
         newNumber={newNumber}
         handleNewName={handleNewName}
@@ -125,12 +125,12 @@ const App = () => {
         addPerson={addPerson}
       />
       <h3>Numbers</h3>
-      <Persons 
-        personsToShow={personsToShow} 
-        setPersons={setPersons} 
+      <Persons
+        personsToShow={personsToShow}
+        setPersons={setPersons}
         persons={persons}
         showMessage={showMessage}
-        />
+      />
     </div>
   )
 }
