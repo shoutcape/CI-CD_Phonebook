@@ -1,12 +1,13 @@
+/* eslint-disable no-unused-vars */
 require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const cors = require('cors')
-const Person =require('./models/person')
+const Person = require('./models/person')
 
 
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (error, _request, response, next) => {
   console.log(error.message)
   if (error.name === 'CastError') {
     return response.status(404).send({ error: 'malformatted id' })
@@ -21,7 +22,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(cors())
 app.use(express.json())
-morgan.token('body', function (request, response) { return JSON.stringify(request.body) })
+morgan.token('body', function(request, response) { return JSON.stringify(request.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(express.static('dist'))
 
@@ -65,22 +66,22 @@ app.post('/api/persons', (request, response, next) => {
 
   Person.find({ name: body.name })
     .then(result => {
-      nameFound = result.length>0
+      nameFound = result.length > 0
     })
 
-  if (!body.name || !body.number ) {
+  if (!body.name || !body.number) {
     return response.status(400).json({
       error: 'no name or number'
     })
   }
 
-  else if (nameFound){
+  else if (nameFound) {
     return response.status(400).json({
       error: 'name must be unique'
     })
   }
 
-  const person =  new Person({
+  const person = new Person({
     name: body.name,
     number: body.number,
     id: generateNewId()
@@ -106,13 +107,12 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
-  persons = persons.filter(person => person.id !== id)
   response.status(204).end()
 })
 
