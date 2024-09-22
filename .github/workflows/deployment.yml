@@ -38,6 +38,7 @@ jobs:
           DEFAULT_BUMP: patch
 
   production_deployment:
+
       needs: [tag_release]
       runs-on: ubuntu-20.04
       steps:
