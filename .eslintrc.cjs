@@ -4,27 +4,21 @@ module.exports = {
     'es2021': true,
     'node': true
   },
-  'overrides': [
-    {
-      'env': {
-        'node': true
-      },
-      'files': [
-        '.eslintrc.{js,cjs}'
-      ],
-      'parserOptions': {
-        'sourceType': 'script'
-      }
-    }
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended'
   ],
   'parserOptions': {
+    'ecmaFeatures': {
+      'jsx': true
+    },
     'ecmaVersion': 'latest',
     'sourceType': 'module'
   },
   'plugins': [
+    'react',
     '@stylistic/js'
   ],
-  'extends': 'eslint:recommended',
   'rules': {
     'eqeqeq': 'error',
     'no-trailing-spaces': 'error',
@@ -51,5 +45,26 @@ module.exports = {
       'error',
       'never'
     ],
-  }
+    'react/jsx-uses-vars': 'error',
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 0
+  },
+  'settings': {
+    'react': {
+      'version': 'detect'
+    }
+  },
+  'overrides': [
+    {
+      'env': {
+        'node': true
+      },
+      'files': [
+        '.eslintrc.{js,cjs}'
+      ],
+      'parserOptions': {
+        'sourceType': 'script'
+      }
+    }
+  ]
 }
