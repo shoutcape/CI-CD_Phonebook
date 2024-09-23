@@ -17,7 +17,7 @@ jobs:
 
 
       - name: Success
-        if: success()
+        if: ${{ success() }}
         uses: stegzilla/discord-notify@v4
         with:
           title: Phonebook health check successful
@@ -28,7 +28,7 @@ jobs:
 
 
       - name: Failure
-        if: ${{ failure() && github.event_name == 'push'}}
+        if: ${{ failure() }}
         uses: stegzilla/discord-notify@v4
         with:
           title: Phonebook health check failed
